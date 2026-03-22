@@ -1,0 +1,39 @@
+{
+  "family": "steam-achievements",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::990447289955:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "steam-achievements",
+      "image": "990447289955.dkr.ecr.ap-south-1.amazonaws.com/steam-achievements:latest",
+      "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
+      "environment": [
+        {
+          "name": "DB_HOST",
+          "value": "steam-achievements-db.cjeomq2c83ys.ap-south-1.rds.amazonaws.com"
+        },
+        { "name": "DB_PORT", "value": "5432" },
+        { "name": "DB_USERNAME", "value": "postgres" },
+        { "name": "DB_PASSWORD", "value": "ChooseAStrongPassword123" },
+        { "name": "DB_NAME", "value": "steam_achievements" },
+        {
+          "name": "STEAM_API_KEY",
+          "value": "C8EA26279ED696B33DE86183F1CF4764"
+        },
+        { "name": "STEAM_ID", "value": "76561199864611619" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/steam-achievements",
+          "awslogs-region": "ap-south-1",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      }
+    }
+  ]
+}
